@@ -3,9 +3,8 @@ import mysql.connector
 import pandas as pd
 import time
 
-# ==========================================
+
 # 1. DATABASE CONNECTION & FUNCTIONS
-# ==========================================
 
 def get_db_connection():
     """Connect to the MySQL Database"""
@@ -132,9 +131,9 @@ def update_order_status(order_id, new_status):
     cursor.close()
     conn.close()
 
-# ==========================================
+
 # 2. APP CONFIGURATION & SESSION STATE
-# ==========================================
+
 st.set_page_config(page_title="Food Delivery App", page_icon="🍔", layout="wide")
 
 # Initialize Cart
@@ -145,9 +144,9 @@ if 'cart' not in st.session_state:
 if 'role' not in st.session_state:
     st.session_state['role'] = None 
 
-# ==========================================
-# 3. LOGIN SCREEN (THE GATEKEEPER)
-# ==========================================
+
+# 3. LOGIN SCREEN
+
 if st.session_state['role'] is None:
     st.title("🍔 Welcome to Foodie Express")
     
@@ -188,9 +187,9 @@ if st.session_state['role'] is None:
     
     st.stop() # 🛑 STOP HERE if not logged in
 
-# ==========================================
+
 # 4. SIDEBAR NAVIGATION
-# ==========================================
+
 st.sidebar.title("🍔 Foodie Express")
 
 if st.session_state['role'] == 'customer':
@@ -213,9 +212,9 @@ if st.sidebar.button("🚪 Logout"):
     st.session_state['cart'] = [] # Clear cart on logout
     st.rerun()
 
-# ==========================================
+
 # 5. PAGE LOGIC (CUSTOMER VIEW)
-# ==========================================
+
 if st.session_state['role'] == 'customer':
     
     # --- HOME PAGE ---
@@ -340,9 +339,9 @@ if st.session_state['role'] == 'customer':
         else:
             st.info("You haven't placed any orders yet.")
 
-# ==========================================
+
 # 6. PAGE LOGIC (RESTAURANT VIEW)
-# ==========================================
+
 elif st.session_state['role'] == 'restaurant':
     
     if page == "Kitchen Dashboard":
@@ -387,13 +386,14 @@ elif st.session_state['role'] == 'restaurant':
                             time.sleep(1)
                             st.rerun()
 
-# ==========================================
+
 # 7. FOOTER
-# ==========================================
+
 st.sidebar.markdown("---")
 if st.session_state['role'] == 'customer':
     st.sidebar.caption("© 2025 Foodie Express | Customer App")
 elif st.session_state['role'] == 'restaurant':
     st.sidebar.caption("© 2025 Foodie Express | Partner App")
 else:
+
     st.sidebar.caption("© 2025 Foodie Express")
